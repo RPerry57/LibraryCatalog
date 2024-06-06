@@ -4,6 +4,7 @@ from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Le
 import sqlalchemy as s_alch
 from app import db
 from .models import User, Book
+import datetime
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=1, max=24)])
@@ -35,13 +36,21 @@ class AddBookForm(FlaskForm):
     notes = TextAreaField('Notes', validators=[Length(min=0, max=140)])
     submit = SubmitField('Add')
 
+    def validate_date_of_purchase(self, date_of_purchase):
+        if date_of_purchase.data > datetime.date.today():
+            raise ValidationError('The date cannot be in the future!')
+
 class EditBookForm(FlaskForm):
     book_id = StringField('Book ID', validators=[DataRequired()])
-    title = StringField('Title', validators=[Length(min=1, max=128)])
-    author = StringField('Author', validators=[Length(min=1, max=128)])
+    title = StringField('Title', validators=[Length(min=0, max=128)])
+    author = StringField('Author', validators=[Length(min=0, max=128)])
     date_of_purchase = DateField('Date of Purchase', validators=[Optional()])
     notes = TextAreaField('Notes', validators=[Length(min=0, max=140)])
     submit = SubmitField('Edit')
+
+    def validate_date_of_purchase(self, date_of_purchase):
+        if date_of_purchase.data > datetime.date.today():
+            raise ValidationError('The date cannot be in the future!')
 
 class DeleteBookForm(FlaskForm):
     book_id = StringField('Book ID', validators=[DataRequired(), Length(min=1, max=6)])
