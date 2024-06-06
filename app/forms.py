@@ -30,17 +30,17 @@ class RegistrationForm(FlaskForm):
 
 class AddBookForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(min=1, max=128)])
-    author = StringField('Author', validators=[DataRequired(), Length(min=1, max=128])
+    author = StringField('Author', validators=[DataRequired(), Length(min=1, max=128)])
     date_of_purchase = DateField('Date of Purchase', validators=[DataRequired()])
     notes = TextAreaField('Notes', validators=[Length(min=0, max=140)])
     submit = SubmitField('Add')
 
 class EditBookForm(FlaskForm):
     book_id = StringField('Book ID', validators=[DataRequired()])
-    title = StringField('Title')
-    author = StringField('Author')
+    title = StringField('Title', validators=[Length(min=1, max=128)])
+    author = StringField('Author', validators=[Length(min=1, max=128)])
     date_of_purchase = DateField('Date of Purchase', validators=[Optional()])
-    notes = TextAreaField('Notes')
+    notes = TextAreaField('Notes', validators=[Length(min=0, max=140)])
     submit = SubmitField('Edit')
 
 class DeleteBookForm(FlaskForm):
