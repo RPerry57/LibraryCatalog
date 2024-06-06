@@ -129,7 +129,7 @@
                         <li key=${book}>${book}</li>`
                     )}
                     </ul>
-                    <input type="text" id="query" size="16"/>
+                    <input type="text" id="query" maxlength="64" size="16"/>
                     <button onClick=${() => this.searchBook(document.getElementById("query").value)}>Search</button>
                     Please do not make more than one or two searches per minute, as Open Library doesn't like that!
                 `;
