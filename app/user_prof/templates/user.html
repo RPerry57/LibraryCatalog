@@ -38,6 +38,9 @@
             {% if deleting %}
                 <p>
                     {{ book_form.book_id.label }}: {{book_form.book_id(size=4) }}
+                    {% for error in book_form.book_id.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
 
                 </p>
                 <p>
@@ -47,23 +50,38 @@
                 {% if editing %}
                 <p>
                     {{ book_form.book_id.label}}: {{ book_form.book_id(size=4) }}
+                    {% for error in book_form.book_id.errors %}
+                    <span style="color: red;">[{{ error}}]</span>
+                    {% endfor %}
 
                     </p>
                 {% endif %}
                 <p>
                     {{ book_form.title.label }}: {{ book_form.title(size=32) }}
+                    {% for error in book_form.title.errors %}
+                    <span style="color: red;">[{{ error}}]</span>
+                    {% endfor %}
 
                 </p>
                 <p>
                     {{ book_form.author.label}}: {{ book_form.author(size=32) }}
+                    {% for error in book_form.author.errors %}
+                    <span style="color: red;">[{{ error}}]</span>
+                    {% endfor %}
 
                 </p>
                 <p>
                     {{ book_form.date_of_purchase.label }}: {{ book_form.date_of_purchase}}
+                    {% for error in book_form.date_of_purchase.errors %}
+                    <span style="color: red;">[{{ error}}]</span>
+                    {% endfor %}
 
                 </p>
                 <p>
                     {{ book_form.notes.label }}: {{ book_form.notes(cols=32, rows=4) }}
+                    {% for error in book_form.notes.errors %}
+                    <span style="color: red;">[{{ error}}]</span>
+                    {% endfor %}
 
                 </p>
                 <p>{{ book_form.submit() }}</p>
