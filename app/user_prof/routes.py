@@ -80,8 +80,8 @@ def user_add(username):
     
         return render_template('user.html', book_form=book_form, user=user, books=books)
     else:
-        flash('This profile doesn't belong to you!')
-        return redirect(url_for('user_prof.user', username=username)
+        flash("This profile doesn't belong to you!")
+        return redirect(url_for('user_prof.user', username=username))
 
 @user_prof.route('/user/<username>/edit', methods=['GET', 'POST'])
 @login_required
@@ -130,8 +130,8 @@ def user_edit(username):
         # Show them their list with book_ids listed
         return render_template('user.html', book_form=book_form, user=user, books=books, editing=True)
     else:
-        flash('This profile doesn't belong to you!')
-        return redirect(url_for('user_prof.user', username=username)
+        flash("This profile doesn't belong to you!")
+        return redirect(url_for('user_prof.user', username=username))
         
 
 @user_prof.route('/user/<username>/delete', methods=['GET', 'POST'])
@@ -162,5 +162,5 @@ def user_delete(username):
                 return redirect(url_for('user_prof.user_delete', username=current_user.username))
         return render_template('user.html', book_form=book_form, user=user, books=books, deleting=True)
     else:
-        flash('This profile doesn't belong to you!')
-        return redirect(url_for('user_prof.user', username=username)
+        flash("This profile doesn't belong to you!")
+        return redirect(url_for('user_prof.user', username=username))
