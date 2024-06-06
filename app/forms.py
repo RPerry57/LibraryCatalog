@@ -29,8 +29,8 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('That email address is already in use, please try another!')
 
 class AddBookForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    author = StringField('Author', validators=[DataRequired()])
+    title = StringField('Title', validators=[DataRequired(), Length(min=1, max=128)])
+    author = StringField('Author', validators=[DataRequired(), Length(min=1, max=128])
     date_of_purchase = DateField('Date of Purchase', validators=[DataRequired()])
     notes = TextAreaField('Notes', validators=[Length(min=0, max=140)])
     submit = SubmitField('Add')
