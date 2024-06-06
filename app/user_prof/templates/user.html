@@ -9,7 +9,9 @@
                 <p>
                     <h3><b>{% if (editing or deleting) %}{{ book.id }} - {% endif %}{{ book.title }}</b> - {{ book.author }}</h3>
                     Date Purchased: {{ book.date_of_purchase }}<br>
-                    {{ book.notes }}
+                    {{ book.notes }} --- <a href="{{url_for('edit.edit', book_id=book.id)}}"><button>Edit</button></a>
+                    <a href="{{url_for('delete.delete', book_id=book.id)}}"><button>Delete</button></a>
+
                 </p>
             {% endfor %}
 
@@ -17,22 +19,14 @@
             <h3>Your shelves hold nothing but dust... try adding a book below!</h3> 
         {% endif %}
     <hr>
-    {% if option_form %}
+    {% if add_form %}
         <form action="" method="post">
-            {{ option_form.hidden_tag() }}
-            {{ option_form.submit_add }}
-            {{ option_form.submit_edit }}
-            {{ option_form.submit_delete }}
+            {{ add_form.hidden_tag() }}
+            {{ add_form.submit_add }}
         </form>
     {% endif %}
     {% if book_form %}
-    {% if editing %}
-        <h2>Edit an entry from your catalog:</h2>
-    {% elif deleting %}
-        <h2>Delete a book from your catalog:</h2>
-    {% else %}
         <h2>Add a book to your catalog:</h2>
-    {% endif %}
         <form action="" method="post">
             {{ book_form.hidden_tag() }}
             {% if deleting %}
@@ -47,15 +41,6 @@
                     {{ book_form.submit() }}
                 </p>
             {% else %}
-                {% if editing %}
-                <p>
-                    {{ book_form.book_id.label}}: {{ book_form.book_id(size=4) }}
-                    {% for error in book_form.book_id.errors %}
-                    <span style="color: red;">[{{ error}}]</span>
-                    {% endfor %}
-
-                    </p>
-                {% endif %}
                 <p>
                     {{ book_form.title.label }}: {{ book_form.title(size=32) }}
                     {% for error in book_form.title.errors %}

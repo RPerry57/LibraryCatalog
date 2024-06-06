@@ -41,7 +41,6 @@ class AddBookForm(FlaskForm):
             raise ValidationError('The date cannot be in the future!')
 
 class EditBookForm(FlaskForm):
-    book_id = StringField('Book ID', validators=[DataRequired()])
     title = StringField('Title', validators=[Length(min=0, max=128)])
     author = StringField('Author', validators=[Length(min=0, max=128)])
     date_of_purchase = DateField('Date of Purchase', validators=[Optional()])
@@ -53,13 +52,12 @@ class EditBookForm(FlaskForm):
             raise ValidationError('The date cannot be in the future!')
 
 class DeleteBookForm(FlaskForm):
-    book_id = StringField('Book ID', validators=[DataRequired(), Length(min=1, max=6)])
-    submit = SubmitField('Delete')
+    submit_yes = SubmitField('Yes')
+    submit_no = SubmitField('No')
 
-class OptionForm(FlaskForm):
+class AddForm(FlaskForm):
     submit_add = SubmitField('Add')
-    submit_edit = SubmitField('Edit')
-    submit_delete = SubmitField('Delete')
+
     
 class ExportForm(FlaskForm):
     target_email = StringField('eMail', validators=[DataRequired(), Email(), Length(min=1, max=128)])
