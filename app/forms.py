@@ -6,16 +6,16 @@ from app import db
 from .models import User, Book
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired(), Length(min=1, max=24)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=1, max=24)])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    username = StringField('Username', validators=[DataRequired(), Length(min=1, max=24)])
+    email = StringField('Email', validators=[DataRequired(), Email(), Length(min=1, max=128)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=1, max=24)])
+    password2 = PasswordField('Repeat Password', validators=[DataRequired(), Length(min=1, max=24), EqualTo('password')])
     submit = SubmitField('Register')
 
     def validate_username(self, username):
@@ -44,7 +44,7 @@ class EditBookForm(FlaskForm):
     submit = SubmitField('Edit')
 
 class DeleteBookForm(FlaskForm):
-    book_id = StringField('Book ID', validators=[DataRequired()])
+    book_id = StringField('Book ID', validators=[DataRequired(), Length(min=1, max=6)])
     submit = SubmitField('Delete')
 
 class OptionForm(FlaskForm):
@@ -53,9 +53,9 @@ class OptionForm(FlaskForm):
     submit_delete = SubmitField('Delete')
     
 class ExportForm(FlaskForm):
-    target_email = StringField('eMail', validators=[DataRequired()])
+    target_email = StringField('eMail', validators=[DataRequired(), Email(), Length(min=1, max=128)])
     submit = SubmitField('Export')
     
 class VerifyForm(FlaskForm):
-    verification_code = StringField('Verification Code', validators=[DataRequired()])
+    verification_code = StringField('Verification Code', validators=[DataRequired(), Length(min=6, max=6)])
     submit = SubmitField('Submit')
