@@ -39,8 +39,14 @@ def user(username):
             # Basic book list message construction
             msg = Message('Library Catalog Share', sender=app.config['ADMINS'][0], recipients=[target_email])
             text = current_user.username + ' shared their Library Catalog with you:\n'
-            for book in books:
-                text += book.title + ' - ' + book.author + '\n'
+
+            if len(books) > 0:
+                for book in books:
+                    text += book.title + ' - ' + book.author + '\n'
+            else:
+                # Don't let a user send an empty list
+                flash("You don't have any books to send!")
+                return redirect(url_for('user_prof.user', username=current_user.username))
 
             msg.body = text
             mail.send(msg)
