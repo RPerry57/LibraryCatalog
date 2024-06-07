@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% if title %}
+            <title>{{ title }} - Library Catalog</title>
+        {% else %}
+            <title>Library Catalog</title>
+        {% endif %}
+        <style>
+            body {
+              align-items: left;
+              background-color: #ecddba;
+              color: #5a400f;
+              font-family: Georgia, 'Times New Roman', Times, serif;
+            }
+            a:link {
+                color:#5a400f;
+                text-decoration: none;
+            }
+            a:visited {
+                color:#5a400f;
+                text-decoration: none;
+            }
+            a:hover {
+                color:#bd8112;
+                text-decoration: underline;
+            }
+            a:active {
+                color:#5a400f;
+                text-decoration: underline;
+            }
+            h1 {
+              text-align: left;
+              font-size: 3rem;
+              color: #630c0c;
+              margin-bottom: 40px;
+            }
+            hr{
+                color:#ffe9c0
+            }
+
+          </style>
+    </head>
+    <body>
+        <div>Library Catalog: 
+            <a href="{{ url_for('index.index') }}">Home</a>
+            {% if current_user.is_anonymous %}
+            <a href="{{ url_for('logreg.login') }}">Sign In</a>
+            <a href="{{ url_for('logreg.register') }}">Register</a>
+            {% else %}
+            <a href="{{ url_for('user_prof.user', username=current_user.username) }}">Profile</a>
+            <a href="{{ url_for('logreg.logout') }}">Logout</a>
+            {% endif %}
+
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        <hr>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>

@@ -17,8 +17,8 @@ mail = Mail(app)
 from .index import index
 from .user_prof import user_prof
 from .logreg import logreg
-from .edit_delete import edit_delete
+
 app.register_blueprint(index)
 app.register_blueprint(user_prof)
 app.register_blueprint(logreg)
-app.register_blueprint(edit_delete)
+

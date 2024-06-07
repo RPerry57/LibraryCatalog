@@ -9,8 +9,8 @@
                 <p>
                     <h3><b>{{ book.title }}</b> - {{ book.author }}</h3>
                     Date Purchased: {{ book.date_of_purchase }}<br>
-                    {{ book.notes }} --- <a href="{{url_for('edit_delete.edit', book_id=book.id)}}"><button>Edit</button></a>
-                    <a href="{{url_for('edit_delete.delete', book_id=book.id)}}"><button>Delete</button></a>
+                    {{ book.notes }} ---{% if own_profile %} <a href="{{url_for('user_prof.edit', book_id=book.id)}}"><button>Edit</button></a>
+                    <a href="{{url_for('user_prof.delete', book_id=book.id)}}"><button>Delete</button></a>{% endif %}
 
                 </p>
             {% endfor %}
@@ -19,6 +19,7 @@
             <h3>Your shelves hold nothing but dust... try adding a book below!</h3> 
         {% endif %}
     <hr>
+    {% if own_profile %}
     {% if add_form %}
         <form action="" method="post">
             {{ add_form.hidden_tag() }}
@@ -143,6 +144,6 @@
         render(html`<${App} page="All" />`, document.getElementById('app'));
       </script>
     {% endif %}
-   
+   {% endif %}
 
 {% endblock %}
