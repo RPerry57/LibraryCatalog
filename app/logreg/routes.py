@@ -76,13 +76,22 @@ def verify():
     if form.validate_on_submit():
         if form.verification_code.data == verification_code:
             # If user enters the correct code, create their profile and sign them in
-            print(new_username, new_password)
-            user = User(username=new_username, email=new_email)
-            user.set_password(new_password)
-            db.session.add(user)
-            db.session.commit()
-            login_user(user, remember=False)
-            flash('Welcome to Library Catalog, ' + new_username + '!')
+
+            # Check to make sure that two users are not trying to register the same name at the same time
+            # Thank you Connor for finding this one
+            dupe_user = db.session.scalar(s_alch.select(User).where(User.username == new_username))
+
+            if dupe_user != None:
+                flash('Username has been taken, please try again!')
+                return redirect(url_for('logreg.register'))
+
+            else:
+                user = User(username=new_username, email=new_email)
+                user.set_password(new_password)
+                db.session.add(user)
+                db.session.commit()
+                login_user(user, remember=False)
+                flash('Welcome to Library Catalog, ' + new_username + '!')
 
             # Flush out all user data from session dict
             session.clear()
