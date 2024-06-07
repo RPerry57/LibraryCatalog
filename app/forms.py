@@ -44,7 +44,7 @@ class EditBookForm(FlaskForm):
     title = StringField('Title', validators=[Length(min=0, max=128)])
     author = StringField('Author', validators=[Length(min=0, max=128)])
     date_of_purchase = DateField('Date of Purchase', validators=[Optional()])
-    notes = TextAreaField('Notes', validators=[Length(min=0, max=140)])
+    notes = TextAreaField('Notes', validators=[Length(min=0, max=512)])
     submit = SubmitField('Edit')
 
     def validate_date_of_purchase(self, date_of_purchase):
