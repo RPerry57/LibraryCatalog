@@ -42,13 +42,13 @@ def user(username):
             else:
                 # Don't let a user send an empty list
                 flash("You don't have any books to send!")
-                return redirect(url_for('user_prof.user', username=current_user.username, own_profile=True))
+                return redirect(url_for('user_prof.user', username=current_user.username))
 
             msg.body = text
             mail.send(msg)
             flash('Sent your catalog to: ' + target_email)
             # We essentially refresh the page
-            return redirect(url_for('user_prof.user', username=current_user.username))
+            return redirect(url_for('user_prof.user', username=current_user.username, own_profile=True))
 
 
         # User page with extra forms for current user
