@@ -52,7 +52,7 @@ def user(username):
 
 
         # User page with extra forms for current user
-        return render_template('user.html', add_form=add_form, export_form=export_form, user=user, books=books, searching=True)
+        return render_template('user.html', add_form=add_form, export_form=export_form, user=user, books=books, searching=True, own_profile=True)
 
     # Users can view other users' profiles. There is no user search function at the moment, but other profiles can be reached by entering their URLs
     else:
