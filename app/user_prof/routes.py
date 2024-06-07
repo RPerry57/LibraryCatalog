@@ -80,7 +80,7 @@ def user_add(username):
             # Send them back to their profile
             return redirect(url_for('user_prof.user', username=current_user.username))
     
-        return render_template('user.html', book_form=book_form, user=user, books=books)
+        return render_template('user.html', book_form=book_form, user=user, books=books, own_profile=True)
     else:
         flash("This profile doesn't belong to you!")
         return redirect(url_for('user_prof.user', username=username))
