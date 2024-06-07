@@ -7,10 +7,10 @@
         {% if books %}
             {% for book in books %}
                 <p>
-                    <h3><b>{% if (editing or deleting) %}{{ book.id }} - {% endif %}{{ book.title }}</b> - {{ book.author }}</h3>
+                    <h3><b>{{ book.title }}</b> - {{ book.author }}</h3>
                     Date Purchased: {{ book.date_of_purchase }}<br>
-                    {{ book.notes }} --- <a href="{{url_for('edit.edit', book_id=book.id)}}"><button>Edit</button></a>
-                    <a href="{{url_for('delete.delete', book_id=book.id)}}"><button>Delete</button></a>
+                    {{ book.notes }} ---{% if own_profile %} <a href="{{url_for('edit_delete.edit', book_id=book.id)}}"><button>Edit</button></a>
+                    <a href="{{url_for('edit_delete.delete', book_id=book.id)}}"><button>Delete</button></a>{% endif %}
 
                 </p>
             {% endfor %}
