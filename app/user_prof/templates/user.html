@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>{{ user.username }}'s Catalog</h1>
+    <hr>
+        {% if books %}
+            {% for book in books %}
+                <p>
+                    <h3><b>{{ book.title }}</b> - {{ book.author }}</h3>
+                    Date Purchased: {{ book.date_of_purchase }}<br>
+                    {{ book.notes }} ---{% if own_profile %} <a href="{{url_for('user_prof.edit', book_id=book.id)}}"><button>Edit</button></a>
+                    <a href="{{url_for('user_prof.delete', book_id=book.id)}}"><button>Delete</button></a>{% endif %}
+
+                </p>
+            {% endfor %}
+
+        {% else %}
+            <h3>Your shelves hold nothing but dust... try adding a book below!</h3> 
+        {% endif %}
+    <hr>
+    {% if own_profile %}
+    {% if add_form %}
+        <form action="" method="post">
+            {{ add_form.hidden_tag() }}
+            {{ add_form.submit_add }}
+        </form>
+    {% endif %}
+    {% if book_form %}
+        <h2>Add a book to your catalog:</h2>
+        <form action="" method="post">
+            {{ book_form.hidden_tag() }}
+            {% if deleting %}
+                <p>
+                    {{ book_form.book_id.label }}: {{book_form.book_id(size=4) }}
+                    {% for error in book_form.book_id.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+
+                </p>
+                <p>
+                    {{ book_form.submit() }}
+                </p>
+            {% else %}
+                <p>
+                    {{ book_form.title.label }}: {{ book_form.title(size=32) }}
+                    {% for error in book_form.title.errors %}
+                    <span style="color: red;">[{{ error}}]</span>
+                    {% endfor %}
+
+                </p>
+                <p>
+                    {{ book_form.author.label}}: {{ book_form.author(size=32) }}
+                    {% for error in book_form.author.errors %}
+                    <span style="color: red;">[{{ error}}]</span>
+                    {% endfor %}
+
+                </p>
+                <p>
+                    {{ book_form.date_of_purchase.label }}: {{ book_form.date_of_purchase}}
+                    {% for error in book_form.date_of_purchase.errors %}
+                    <span style="color: red;">[{{ error}}]</span>
+                    {% endfor %}
+
+                </p>
+                <p>
+                    {{ book_form.notes.label }}: {{ book_form.notes(cols=32, rows=4) }}
+                    {% for error in book_form.notes.errors %}
+                    <span style="color: red;">[{{ error}}]</span>
+                    {% endfor %}
+
+                </p>
+                <p>{{ book_form.submit() }}</p>
+            {% endif %}
+        </form>
+    {% endif %}
+    <hr>
+
+    {% if export_form %}
+        <form action="" method="post">
+            {{ export_form.hidden_tag() }}
+            {{ export_form.target_email.label}}:{{ export_form.target_email(size=20)}}{{ export_form.submit() }}
+        </form>
+    {% endif %}
+
+    {% if searching %}
+    <hr>
+    <div id="app"></div>
+    <script type="module">
+        import { html, Component, render } from 'https://unpkg.com/htm/preact/standalone.module.js';
+    
+        class App extends Component {
+        
+            async searchBook(input) {
+                const { books = [] } = [];
+                this.setState({ books: books});
+
+                const url = 'https://openlibrary.org/search.json?q=' + input +'&offset=0&limit=5';
+
+                const options = {
+                    method: 'GET',
+                };
+                await fetch(url, options).then((response) => response.json()).then((data) =>{
+                    for (const doc of data.docs) {
+                        const listItem = document.createElement("li");
+
+                        const titleElement = document.createElement("strong");
+                        titleElement.textContent = doc.title;
+
+                        const authorElement = document.createElement("strong");
+                        authorElement.textContent = doc.author_name[0];
+
+                        const ratingElement = document.createElement("weak");
+                        if (doc.ratings_average == null){
+                            ratingElement.textContent = "N/A";
+                        } else {
+                            ratingElement.textContent = doc.ratings_average.toString();
+                        }
+                        const str = titleElement.textContent + ' - ' + authorElement.textContent + ' -  Average Rating = ' + ratingElement.textContent;
+                        books.push(`${str}`);
+                    }
+                });
+                this.setState({ books: books});
+            
+
+
+            }
+            render({ page }, { books = [] }) {
+                return html`
+                    <h2>Open Library Search</h2>
+                    <ul>
+                        ${books.map(book => html`
+                        <li key=${book}>${book}</li>`
+                    )}
+                    </ul>
+                    <input type="text" id="query" maxlength="64" size="16"/>
+                    <button onClick=${() => this.searchBook(document.getElementById("query").value)}>Search</button>
+                    Please do not make more than one or two searches per minute, as Open Library doesn't like that!
+                `;
+            }
+        }
+
+    
+        render(html`<${App} page="All" />`, document.getElementById('app'));
+      </script>
+    {% endif %}
+   {% endif %}
+
+{% endblock %}

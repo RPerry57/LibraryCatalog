@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome to Library Catalog!</h1>
+    <hr>
+    {% if feed %}
+    <h2>Here's what people have been cataloging lately:</h2><br>
+    {% for blurb in blurbs %}
+    <h3><a href="{{url_for('user_prof.user', username=blurb[0])}}" style="color:#630c0c">{{ blurb[0] }}</a> cataloged:</h3>
+    <b>{{ blurb[1] }}</b> - {{ blurb[2] }}<br>
+    {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>
+    Edit your entry:
+</h2>
+    You can leave a field blank if you do not wish to change it!
+    <hr>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+    <p>
+        <b>Current Title: {{ book.title }}</b><br>
+        {{ form.title.label }}: {{ form.title(size=14) }}
+        {% for error in form.title.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+
+    </p>
+    <p>
+        <b> Author: {{ book.author }}</b><br>
+        {{ form.author.label}}: {{ form.author(size=14) }}
+        {% for error in form.author.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+
+    </p>
+    <p>
+        <b>Current Date of Purchase: {{ book.date_of_purchase }}</b><br>
+        {{ form.date_of_purchase.label }}: {{ form.date_of_purchase}}
+        {% for error in form.date_of_purchase.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+
+    </p>
+    <p>
+        <b>Current Notes: {{ book.notes }}</b><br>
+        {{ form.notes.label }}: {{ form.notes(cols=32, rows=4) }}
+        {% for error in form.notes.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Please enter the verification code we just sent: </h1>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+        {{ form.verification_code.label }}: {{ form.verification_code(size=6) }}
+        {{ form.submit() }}
+</form>
+
+{% endblock %}
